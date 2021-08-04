@@ -7,4 +7,17 @@
 // 
 // Copyright © 2021 RSSchool. All rights reserved.
 
-import Foundation
+import UIKit
+
+class DrawingSettingsModel {
+    static var isDrawingEnabled = true
+    static var strokeColor: UIColor = UIColor.initWithHexString("#f3af22")
+    
+    func currentDrawingEnabled() -> Bool {
+        return DrawingSettingsModel.isDrawingEnabled
+    }
+    
+    func currentDrawingColor() -> UIColor {
+        return DrawingSettingsModel.strokeColor
+    }
+}

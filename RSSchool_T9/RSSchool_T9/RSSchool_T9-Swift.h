@@ -7,6 +7,9 @@
 // 
 // Copyright © 2021 RSSchool. All rights reserved.
 
+#import "RSItemsViewController.swift"
+#import "DrawingSettingsModel.swift"
+
 #ifndef RSSchool_T9_Swift_h
 #define RSSchool_T9_Swift_h
 

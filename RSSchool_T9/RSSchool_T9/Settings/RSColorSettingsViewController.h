@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol RSColorSettingsViewControllerDelegate
 
 @optional
-- (void)setDrawingColor:(NSMutableString *)color;
+- (void)setDrawingColor:(NSString *)color;
 
 @end
 

@@ -28,7 +28,7 @@
     //[self setupNavigationItems];
     [self setupColors];
     [self setupTableView];
-    //self.selectedColor = [NSMutableString new];//[NSMutableString stringWithString: @"hjkjkj"];
+    self.selectedColor = [NSMutableString stringWithString:@"#92003b"];
 }
 
 - (void)setupNavigationItems {
@@ -40,7 +40,7 @@
 - (void) setupTableView {
     self.colorsTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
     [self.colorsTableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"ColorCellId"];
-    self.colorsTableView.scrollEnabled = NO;
+    
     [self.view addSubview:self.colorsTableView];
     self.colorsTableView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -52,21 +52,28 @@
                                              ]];
     self.colorsTableView.dataSource = self;
     self.colorsTableView.delegate = self;
+    self.colorsTableView.alwaysBounceVertical = NO;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ColorCellId" forIndexPath:indexPath];
     //UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"SettingsCellId"];
-    NSString *color = self.colors[indexPath.row];
+    NSMutableString *color = self.colors[indexPath.row];
     cell.textLabel.text = color;
     cell.textLabel.textColor = [UIColor initWithHexString:color];
-    if ( self.selectedColor != nil) {
-        cell.accessoryType = color == self.selectedColor ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    if (self.selectedColor != nil) {
+        if ([color isEqualToString: self.selectedColor]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            self.lastSelection = indexPath;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
     }
     //cell.accessoryType = color == self.selectedColor ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     //cell.accessoryType = UITableViewCellAccessoryCheckmark;
     cell.tintColor = UIColor.redColor;
-    return  cell;
+    return cell;
 }
 
 -(void)changeDrawing {
@@ -108,7 +115,7 @@
 }
 
 - (void)setDrawingColor:(NSString *)color {
-    
+    self.selectedColor = [color mutableCopy];
 }
 
 @end

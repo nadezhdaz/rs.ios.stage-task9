@@ -11,12 +11,24 @@ import UIKit
 
 class RSDividerLineView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: frame.height))
+        path.addLine(to: CGPoint(x: frame.width, y: frame.height))
 
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.strokeColor = UIColor.white.cgColor
+        shapeLayer.fillColor = UIColor.white.cgColor
+        shapeLayer.lineWidth = 1.0
+
+        layer.addSublayer(shapeLayer)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

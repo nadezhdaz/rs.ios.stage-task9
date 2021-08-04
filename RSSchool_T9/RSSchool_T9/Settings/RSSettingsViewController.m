@@ -15,6 +15,7 @@
 @interface RSSettingsViewController () <RSColorSettingsViewControllerDelegate>
 
 //@property (strong, nonatomic) RSItemsViewController *itemsViewController;
+
 @property (strong, nonatomic) RSColorSettingsViewController *colorsViewController;
 
 
@@ -30,6 +31,7 @@
     [self setupNavigationItems];
     [self setupRows];
     [self setupTableView];
+    
 }
 
 - (void)setupNavigationItems {
@@ -78,6 +80,7 @@
 
 -(void)changeDrawingEnabled {
     self.isDrawingEnabled = !(self.isDrawingEnabled);
+    [self.delegate setDrawingEnabled: !self.isDrawingEnabled];
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -102,33 +105,7 @@
 
 - (void)setDrawingColor:(NSMutableString *)color {
     self.selectedColor = [color mutableCopy];
+    [self.delegate setDrawingColor: color];
 }
-
-/*
-
-- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection {
-    
-}
-
-- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-    
-}
-
-- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize {
-    
-}
-
-- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-    
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-    
-}
-
-- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-    
-}
-*/
 
 @end

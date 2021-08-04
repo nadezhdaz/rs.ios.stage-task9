@@ -9,9 +9,11 @@
 
 import UIKit
 
-class RSTabBarViewController: UITabBarController {//}, UITabBarControllerDelegate {
+class RSTabBarViewController: UITabBarController, RSSettingsViewControllerDelegate {//}, UITabBarControllerDelegate {
     
-    let tabBarVC = UITabBarController()
+    //let tabBarVC = UITabBarController()
+    
+    let drawingSettings = DrawingSettingsModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +30,23 @@ class RSTabBarViewController: UITabBarController {//}, UITabBarControllerDelegat
         
         let settingsVc = RSSettingsViewController()
         settingsVc.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 1)
-        //let controllerArray = [itemsVc, settingsVc]
-        tabBarVC.viewControllers = [itemsVc, UINavigationController(rootViewController: settingsVc)]//controllerArray.map{ UINavigationController(rootViewController: $0) }
+        settingsVc.delegate = self
+        let controllerArray = [itemsVc, settingsVc]
+        viewControllers = controllerArray.map{ UINavigationController(rootViewController: $0) }
         
-        self.tabBarVC.tabBar.barTintColor = UIColor.white
-        self.tabBarVC.tabBar.tintColor = UIColor.red
+        tabBar.barTintColor = UIColor.white
+        tabBar.tintColor = UIColor.red
            
-        self.view.addSubview(tabBarVC.view)
+        //self.view.addSubview(tabBarVC.view)
+    }
+    
+    func setDrawingEnabled(_ enabled: Bool) {
+        //DrawingSettingsModel.currentDrawingEnabled(enabled)
+        DrawingSettingsModel.isDrawingEnabled = enabled
+    }
+    
+    func setDrawingColor(_ color: String) {
+        DrawingSettingsModel.strokeColor = UIColor.initWithHexString(color)
     }
     
     /*func setupSwipes() {

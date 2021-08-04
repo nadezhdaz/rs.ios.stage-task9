@@ -12,17 +12,18 @@ import UIKit
 class RSItemCollectionViewCell: UICollectionViewCell {
     
     var innerView: UIView = {
-        let subView = UIView()
-        subView.layer.cornerRadius = 9.0
-        subView.layer.borderWidth = 1.0
-        subView.layer.borderColor = UIColor.black.cgColor
-        subView.clipsToBounds = true
-        return subView
+        let subview = UIView()
+        subview.layer.cornerRadius = 9.0
+        subview.layer.borderWidth = 1.0
+        subview.layer.borderColor = UIColor.black.cgColor
+        subview.clipsToBounds = true
+        return subview
     }()
     
     var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -31,6 +32,7 @@ class RSItemCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.font = UIFont(name: "Rockwell-Regular", size: 16)
         label.textColor = UIColor.white
+        label.numberOfLines = 0
         return label
     }()
     
@@ -60,14 +62,17 @@ class RSItemCollectionViewCell: UICollectionViewCell {
         switch contentType {
         case .story(let story):
             coverImageView.image = story.coverImage
-            titleLabel.text = story.title
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 1.2
+            titleLabel.attributedText = NSMutableAttributedString(string: story.title.trimmingCharacters(in: .newlines), attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
             subtitleLabel.text = story.type
         case .gallery(let gallery):
             coverImageView.image = gallery.coverImage
-            titleLabel.text = gallery.title
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 1.2
+            titleLabel.attributedText = NSMutableAttributedString(string: gallery.title.trimmingCharacters(in: .newlines), attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
             subtitleLabel.text = gallery.type
         }
-        //setNeedsLayout()
     }
     
     func setupViews() {
@@ -112,7 +117,7 @@ class RSItemCollectionViewCell: UICollectionViewCell {
             //titleLabel.topAnchor.constraint(equalTo: innerView.topAnchor, constant: 151.0),
             titleLabel.bottomAnchor.constraint(equalTo: subtitleLabel.topAnchor, constant: -3.0),
             titleLabel.leftAnchor.constraint(equalTo: innerView.leftAnchor, constant: 10.0),
-            titleLabel.rightAnchor.constraint(equalTo: innerView.rightAnchor, constant: -15.0)
+            titleLabel.rightAnchor.constraint(equalTo: innerView.rightAnchor, constant: 0.0)
         ])
         
         NSLayoutConstraint.activate([
@@ -121,11 +126,6 @@ class RSItemCollectionViewCell: UICollectionViewCell {
             subtitleLabel.leftAnchor.constraint(equalTo: innerView.leftAnchor, constant: 10.0),
             subtitleLabel.rightAnchor.constraint(equalTo: innerView.rightAnchor, constant: -13.0)
         ])
-        
-       // NSLayoutConstraint.activate([
-       //     coverImageView.centerXAnchor.constraint(equalTo: subView.centerXAnchor),
-       //     coverImageView.centerYAnchor.constraint(equalTo: subView.centerYAnchor),
-        //])
     }
     
     

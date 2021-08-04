@@ -9,13 +9,6 @@
 
 import UIKit
 
-private enum ItemsLayoutConstant {
-    static let spacing: CGFloat = 16.0
-    static let itemHeight: CGFloat = 220.0
-    static let numberOfColumns: CGFloat = 2.0
-    static let preserved: CGFloat = 40.0
-}
-
 class RSItemsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     var storyViewController = RSStoryViewController()
@@ -33,10 +26,7 @@ class RSItemsViewController: UIViewController, UICollectionViewDataSource, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        title = "Items"
+        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = UIColor.white
         setupCollectionView()
         itemsCollectionView.reloadData()
@@ -84,25 +74,10 @@ class RSItemsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let content = data[indexPath.row]
-        var image: UIImage
-        switch content {
-        case .gallery(let gallery):
-            image = gallery.coverImage
-        case .story(let story):
-            image = story.coverImage
-        }
         
-        //let width = (view.bounds.size.width - ItemsLayoutConstant.preserved) / ItemsLayoutConstant.numberOfColumns
-        let width = itemsCollectionView.bounds.size.width / ItemsLayoutConstant.numberOfColumns - 16.0// + 8.0
-        //let height = image.size.height * width / image.size.width
-        let height = (image.size.height) * width / (image.size.height) //+ 10.0
-        return CGSize(width: width, height: ItemsLayoutConstant.itemHeight)
-        //let width = (view.bounds.size.width - ItemsLayoutConstant.preserved) / ItemsLayoutConstant.numberOfColumns
-        //let width = itemWidth(for: itemsCollectionView.frame.width, spacing: 0)
-        //let height = width *
-
-        //return CGSize(width: width, height: ItemsLayoutConstant.itemHeight)
+        
+        let width = itemsCollectionView.bounds.size.width / 2 - 16.0
+        return CGSize(width: width, height: 220.0)
         
         }
     
@@ -122,33 +97,21 @@ class RSItemsViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func openStoryViewController(with story: Story) {
-        //if (self.storyViewController == nil) {
-        //    self.storyViewController = RSStoryViewController();
-            //self.storyViewController.delegate = self;
-            
-        //}
-        addChild(storyViewController)
-        storyViewController.setupStory(story)
-        view.addSubview(storyViewController.view)
-        storyViewController.view.frame = UIScreen.main.bounds
-        storyViewController.didMove(toParent: self)
-        //view.window?.rootViewController?.present(storyViewController, animated: true, completion: nil)
+        let storyVC = RSStoryViewController()
+        storyVC.setupStory(story)
+        storyVC.modalPresentationStyle = .fullScreen
+        navigationController?.present(storyVC, animated: true, completion: nil)
     }
     
     func openGalleryViewController(with gallery: Gallery) {
-        
+        let galleryVC = RSGalleryViewController()
+        galleryVC.setupGallery(gallery)
+        galleryVC.modalPresentationStyle = .fullScreen
+        navigationController?.present(galleryVC, animated: true, completion: nil)
     }
     
-    /*func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: ItemsLayoutConstant.spacing, left: ItemsLayoutConstant.spacing, bottom: ItemsLayoutConstant.spacing, right: ItemsLayoutConstant.spacing)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+            itemsCollectionView.collectionViewLayout.invalidateLayout();
         }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return ItemsLayoutConstant.spacing
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return ItemsLayoutConstant.spacing
-        }*/
 
 }

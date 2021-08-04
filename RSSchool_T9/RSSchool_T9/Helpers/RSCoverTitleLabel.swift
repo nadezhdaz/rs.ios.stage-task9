@@ -11,12 +11,20 @@ import UIKit
 
 class RSCoverTitleLabel: UILabel {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    let topInset = CGFloat(5)
+    let bottomInset = CGFloat(5)
+    let leftInset = CGFloat(5)
+    let rightInset = CGFloat(5)
+    
+    override func drawText(in rect: CGRect) {
+        let insets: UIEdgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        super.drawText(in: rect.inset(by: insets))
     }
-    */
-
+    
+    override public var intrinsicContentSize: CGSize {
+            var intrinsicSuperViewContentSize = super.intrinsicContentSize
+            intrinsicSuperViewContentSize.height += topInset + bottomInset
+            intrinsicSuperViewContentSize.width += leftInset + rightInset
+            return intrinsicSuperViewContentSize
+        }
 }
